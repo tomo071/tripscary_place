@@ -64,3 +64,5 @@ gem 'kaminari'
 gem 'activeadmin'
 
 gem 'dotenv-rails'
+
+gem 'geocoder'

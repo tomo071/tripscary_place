@@ -1,0 +1,54 @@
+<h1>国名、地名</h1>
+
+
+<div id='map'></div>
+
+<style>
+    #map {
+        height: 500px;
+        width: 500px;
+    }
+</style>
+
+<script>
+    let map
+
+    const display = document.getElementById('display')
+
+    // mapの表示関数
+    function initMap() {
+        geocoder = new google.maps.Geocoder()
+
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: 35.001637,
+                lng: 135.767667
+            },
+            zoom: 15,
+        });
+
+
+
+
+     <% @maps.each do |map| %>
+          (function(){
+          var contentString = "<%= map.title %>";
+
+          var marker = new google.maps.Marker({
+              position:{lat: <%= map.latitude %>, lng: <%= map.longitude %>},
+              map: map,
+              title: contentString
+          });
+
+
+          })();
+     <% end %>
+    }
+</script>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API'] %>&callback=initMap"
+    async defer>
+</script>
+

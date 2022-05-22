@@ -1,0 +1,71 @@
+<div>
+
+</div>
+<div id='map'></div>
+
+<style>
+    #map {
+        height: 500px;
+        width: 500px;
+    }
+</style>
+
+<script>
+    let map
+
+    const display = document.getElementById('display')
+
+    // mapの表示関数
+    function initMap() {
+        geocoder = new google.maps.Geocoder()
+
+        // mapの初期位置, 縮尺を定義
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: <%= @map.latitude %>,
+                lng: <%= @map.longitude %>
+            },
+            zoom: 15,
+        });
+          (function(){
+          var contentString = "<%= @map.title %>";
+
+          var marker = new google.maps.Marker({
+              position:{lat: <%= @map.latitude %>, lng: <%= @map.longitude %>},
+              map: map,
+              title: contentString
+          });
+
+          })();
+    };
+
+</script>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API'] %>&callback=initMap"
+    async defer>
+</script>
+
+<div>
+    <div>
+        <h3>タイトル</h3>
+        <p><strong><%= @map.title %></strong></p>
+    </div>
+    <div>
+        <h3>内容</h3>
+        <p><%= @map.body %></p>
+    </div>
+</div>
+<div>
+    <table>
+        <%= form_with model: @comment, url: comments_path do |f| %>
+
+        <thead>
+            <tr>
+                <th>ユーザー</th>
+                <th>コメント一覧</th>
+            </tr>
+        </thead>
+
+    </table>
+</div>
