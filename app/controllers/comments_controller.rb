@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   def create
-    information = Information.find(params:information_id)
+    information = Information.find_by(params[:information_id])
     comment = current_user.comments.new(comment_params)
     comment.information_id = information.id
     comment.save
@@ -15,6 +15,6 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:body)
+    params.require(:comment).permit(:body, :information_id)
   end
 end

@@ -1,0 +1,63 @@
+<div id='map'></div>
+
+<style>
+    #map {
+        height: 500px;
+        width: 500px;
+    }
+</style>
+
+<script>
+    let map
+
+    const display = document.getElementById('display')
+
+
+    function initMap() {
+      geocoder = new google.maps.Geocoder()
+
+
+      navigator.geolocation.getCurrentPosition(function (position) {
+       var LatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: LatLng,
+            zoom: 15,
+        });
+
+
+
+
+      <% @maps.each do |map| %>
+        (function(){
+          var contentString = "<%= map.title %>";
+
+          var marker = new google.maps.Marker({
+              position:{lat: <%= map.latitude %>, lng: <%= map.longitude %>},
+              map: map,
+              title: contentString
+
+          });
+
+
+          google.maps.event.addListener(marker, 'click', (function(url){
+            return function(){ location.href = url; };
+          })("<%= information_path(map.id) %>"));
+
+
+        })();
+      <% end %>
+      });
+    };
+
+
+
+</script>
+
+
+
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API'] %>&callback=initMap"
+    async defer>
+</script>

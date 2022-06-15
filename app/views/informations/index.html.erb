@@ -1,54 +1,154 @@
-<h1>国名、地名</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <h2 class="text-center">投稿一覧</h2>
+      <div class="border rounded-primary">
+        <h3>マップ検索</h3>
+        <div class="my-1">
+          <form onsubmit="return false;">
+            <input type="text"  id="address"  placeholder="国名、地名">
+            <button type="button" value="検索" id="map_button" class="btn btn-outline-primary">検索</button>
+          </form>
+        </div>
+        <div class="my-1">
+          <button type="button" id="location_button" class="btn btn-secondary btn-block">現在地から検索</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 px-5 px-sm-0 mx-2">
+      <div id='map'></div>
+    </div>
+  </div>
+</div>
 
-
-<div id='map'></div>
 
 <style>
     #map {
-        height: 500px;
-        width: 500px;
+        height: 800px;
+        width: 100%;
     }
 </style>
 
 <script>
-    let map
+  let map
 
-    const display = document.getElementById('display')
+  const display = document.getElementById('display')
 
-    // mapの表示関数
-    function initMap() {
-        geocoder = new google.maps.Geocoder()
+  function initMap() {
 
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {
+        lat: 35.001637,
+        lng: 135.767667
+      },
+       zoom: 15,
+    });
+
+    <% @maps.each do |map| %>
+      (function(){
+        var contentString = "<%= map.title %>";
+
+        var marker = new google.maps.Marker({
+          position:{lat: <%= map.latitude %>, lng: <%= map.longitude %>},
+          map: map,
+          title: contentString
+        });
+
+        google.maps.event.addListener(marker, 'click', (function(url){
+          return function(){ location.href = url; };
+        })("<%= information_path(map.id) %>"));
+
+
+      })();
+    <% end %>
+
+     $('#location_button').click(function() {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var LatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
         map = new google.maps.Map(document.getElementById('map'), {
-            center: {
-                lat: 35.001637,
-                lng: 135.767667
-            },
+            center: LatLng,
             zoom: 15,
         });
 
-
-
-
-     <% @maps.each do |map| %>
+        <% @maps.each do |map| %>
           (function(){
-          var contentString = "<%= map.title %>";
+            var contentString = "<%= map.title %>";
 
-          var marker = new google.maps.Marker({
-              position:{lat: <%= map.latitude %>, lng: <%= map.longitude %>},
-              map: map,
-              title: contentString
-          });
+            var marker = new google.maps.Marker({
+                position:{lat: <%= map.latitude %>, lng: <%= map.longitude %>},
+                map: map,
+                title: contentString
+            });
 
+            google.maps.event.addListener(marker, 'click', (function(url){
+              return function(){ location.href = url; };
+            })("<%= information_path(map.id) %>"));
 
           })();
-     <% end %>
-    }
+        <% end %>
+      });
+    });
+  }
+
+  var getMap = (function() {
+    function codeAddress(address) {
+
+      var geocoder = new google.maps.Geocoder();
+
+      geocoder.geocode( { 'address': address}, function(results, status) {
+
+        if (status == google.maps.GeocoderStatus.OK) {
+
+          map.setCenter(results[0].geometry.location);
+
+          document.getElementById('lat').value=results[0].geometry.location.lat();
+          document.getElementById('lng').value=results[0].geometry.location.lng();
+
+
+        } else {
+          console.log('Geocode was not successful for the following reason: ' + status);
+        }
+
+      });
+
+    };
+
+
+    return {
+      getAddress: function() {
+        var button = document.getElementById("map_button");
+
+        button.onclick = function() {
+
+          var address = document.getElementById("address").value;
+
+          codeAddress(address);
+        }
+
+        window.onload = function(){
+
+          var address = document.getElementById("address").value;
+          codeAddress(address);
+        }
+      }
+
+    };
+
+  })();
+  getMap.getAddress();
 </script>
+
+
+
 
 <script
     src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API'] %>&callback=initMap"
     async defer>
 </script>
+
+
+
 

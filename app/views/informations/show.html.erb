@@ -1,7 +1,86 @@
-<div>
+<div class="container px-5 px-sm-0">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-6 px-1 px-sm-0 mt-2">
+            <div id='map'></div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-5 px-1 px-sm-0 mx-0 mt-2 border rounded-dark">
+            <div>
+                <div class="m-auto">
+                    <h3>タイトル</h3>
+                    <p class="m-3"><strong><%= @map.title %></strong></p>
+                </div>
+                <div>
+                    <h3>内容</h3>
+                    <p class="m-3"><%= safe_join(@map.body.split("\n"),tag(:br)) %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-10 px-5 px-sm-0 mx-auto mt-3">
+            <div class="text-right">
+                <% if user_signed_in? %>
+                    <% if @map.user_id==current_user.id %>
+                        <%= @map.favorites.count %> 参考になった
+                    <% else %>
 
+                        <% if @map.favorited_by?(current_user) %>
+                            <p class="btn btn-outline-danger">
+                                <%= link_to information_favorites_path(@map), method: :delete do %>
+                                    ✓<%= @map.favorites.count %> 参考になった
+                                <% end %>
+                            </p>
+                        <% else %>
+                            <p class="btn btn-outline-primary" disabled>
+                                <%= link_to information_favorites_path(@map), method: :post do %>
+                                    ☐<%= @map.favorites.count %> 参考になった
+                                <% end %>
+                            </p>
+                        <% end %>
+                    <% end %>
+                <% end %>
+
+                <% if @map.user_id==current_user.id %>
+                    <%= link_to  edit_information_path(@map.id) do %>
+                        <p class="btn btn-outline-primary">投稿を編集する</p>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-10 px-5 px-sm-0 mx-auto">
+            <div>
+                <table class="table">
+                    <div class="text-right">
+                        <%= form_with model: [@map, @comment], url: comments_path do |f| %>
+                            <%= f.hidden_field :information_id, :value=>@map.id %>
+                            <%= f.text_field :body, size:"60" %>
+                            <%= f.submit "コメントする"%>
+                        <% end %>
+                    </div>
+                    <thead>
+                        <tr>
+                            <th>ユーザー</th>
+                            <th>コメント一覧</th>
+                            <th colspan="2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @comments.each do |comment| %>
+                        <tr>
+                            <td><%= comment.user.name %></td>
+                            <td><%= comment.body %></td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-<div id='map'></div>
+
 
 <style>
     #map {
@@ -15,11 +94,9 @@
 
     const display = document.getElementById('display')
 
-    // mapの表示関数
     function initMap() {
         geocoder = new google.maps.Geocoder()
 
-        // mapの初期位置, 縮尺を定義
         map = new google.maps.Map(document.getElementById('map'), {
             center: {
                 lat: <%= @map.latitude %>,
@@ -27,16 +104,17 @@
             },
             zoom: 15,
         });
-          (function(){
-          var contentString = "<%= @map.title %>";
 
-          var marker = new google.maps.Marker({
-              position:{lat: <%= @map.latitude %>, lng: <%= @map.longitude %>},
-              map: map,
-              title: contentString
-          });
+        (function(){
+            var contentString = "<%= @map.title %>";
 
-          })();
+            var marker = new google.maps.Marker({
+                position:{lat: <%= @map.latitude %>, lng: <%= @map.longitude %>},
+                map: map,
+                title: contentString
+            });
+
+        })();
     };
 
 </script>
@@ -45,27 +123,3 @@
     src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API'] %>&callback=initMap"
     async defer>
 </script>
-
-<div>
-    <div>
-        <h3>タイトル</h3>
-        <p><strong><%= @map.title %></strong></p>
-    </div>
-    <div>
-        <h3>内容</h3>
-        <p><%= @map.body %></p>
-    </div>
-</div>
-<div>
-    <table>
-        <%= form_with model: @comment, url: comments_path do |f| %>
-
-        <thead>
-            <tr>
-                <th>ユーザー</th>
-                <th>コメント一覧</th>
-            </tr>
-        </thead>
-
-    </table>
-</div>

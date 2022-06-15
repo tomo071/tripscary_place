@@ -1,2 +1,122 @@
-<h1>Homes#top</h1>
-<p>Find me in app/views/homes/top.html.erb</p>
+<div class="container px-5 px-sm-0">
+  <div class="row">
+    <div class="col-sm-12 col-md-8 col-lg-8 px-5 px-sm-0 mx-auto">
+      <div class="mx-auto">
+        旅行中、スリにあった...<br>
+        タクシー料金が適正ではなかった...<br>
+        道案内をしてくれると言っていたのでついていったら怖い目にあった...<br>
+
+        海外などの旅行で体験したことを情報共有し<br>
+        危険エリア、対策を事前にチェック！<br>
+        楽しい旅行、出張の参考に！！
+      </div>
+    </div>
+  </div>
+      <h1>マップ検索</h1>
+
+      <form onsubmit="return false;">
+        <input type="text" value="国名、地名を入力してください" id="address">
+        <button type="button" value="検索" id="map_button">検索</button>
+      </form>
+
+
+      <div id='map'></div>
+
+      <style>
+          #map {
+              height: 500px;
+              width: 500px;
+          }
+      </style>
+
+      <script>
+          let map
+
+          const display = document.getElementById('display')
+
+          // mapの表示関数
+          function initMap() {
+
+              map = new google.maps.Map(document.getElementById('map'), {
+                  center: {
+                      lat: 35.001637,
+                      lng: 135.767667
+                  },
+                  zoom: 1,
+              });
+
+
+           <% @maps.each do |map| %>
+                (function(){
+                var contentString = "<%= map.title %>";
+
+                var marker = new google.maps.Marker({
+                    position:{lat: <%= map.latitude %>, lng: <%= map.longitude %>},
+                    map: map,
+                    title: contentString
+                });
+                 google.maps.event.addListener(marker, 'click', (function(url){
+                    return function(){ location.href = url; };
+                 })("<%= information_path(map.id) %>"));
+
+
+                })();
+           <% end %>
+          }
+              var getMap = (function() {
+        function codeAddress(address) {
+
+          var geocoder = new google.maps.Geocoder();
+
+          geocoder.geocode( { 'address': address}, function(results, status) {
+
+            if (status == google.maps.GeocoderStatus.OK) {
+
+              map.setCenter(results[0].geometry.location);
+
+              document.getElementById('lat').value=results[0].geometry.location.lat();
+              document.getElementById('lng').value=results[0].geometry.location.lng();
+
+
+            } else {
+              console.log('Geocode was not successful for the following reason: ' + status);
+            }
+
+          });
+
+        }
+
+
+        return {
+          getAddress: function() {
+            var button = document.getElementById("map_button");
+
+            button.onclick = function() {
+
+              var address = document.getElementById("address").value;
+
+              codeAddress(address);
+            }
+
+            window.onload = function(){
+
+              var address = document.getElementById("address").value;
+              codeAddress(address);
+            }
+          }
+
+        };
+
+      })();
+      getMap.getAddress();
+      </script>
+
+
+
+
+      <script
+          src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API'] %>&callback=initMap"
+          async defer>
+      </script>
+      <%= link_to "sign_in", new_user_session_path %>
+      <%= link_to "sign_up", new_user_registration_path %>

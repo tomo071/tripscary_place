@@ -3,7 +3,7 @@ class CreateFavorites < ActiveRecord::Migration[6.1]
     create_table :favorites do |t|
 
       t.integer :user_id
-      t.integer :commert_id
+      t.integer :information_id
 
       t.timestamps
     end

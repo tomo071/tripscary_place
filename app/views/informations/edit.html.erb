@@ -1,2 +1,140 @@
-<h1>Informations#edit</h1>
-<p>Find me in app/views/informations/edit.html.erb</p>
+<div class="container px-5 px-sm-0">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 px-5 px-sm-0 m-4">
+      <form onsubmit="return false;">
+        <h3>マップ検索</h3>
+        <input type="text" placeholder="国名、地名" id="address">
+        <button type="button" value="検索" id="map_button">検索</button>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6 px-1 px-sm-0 m-2" >
+      <div id='map'></div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-5 px-1 px-sm-0 m-2 border rounded-derk">
+      <div>
+        <%= form_with model: @map, url: informations_path, data: { confirm: "【確認】内容を投稿しますか?" } do |f| %>
+          <%= f.hidden_field :latitude, id: 'lat' %>
+          <%= f.hidden_field :longitude, id: 'lng' %>
+          <div>
+            <h3>タイトル</h3>
+            <div class="m-2">
+              <%= f.text_field :title, style: "width:100%" %>
+            </div>
+          </div>
+            <h3>内容</h3>
+          <div class="m-2">
+            <%= f.text_area :body, style: "width:100%; height:325px" %>
+          </div>
+          <div class="text-right"><%= f.submit "投稿する",class:"btn btn-outline-primary" %></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 mt-lg-4 text-center">
+      <%= link_to informations_path,  data: { 'turbolinks': false } do %>
+        <p class="btn btn-outline-info">
+          投稿一覧
+        </p>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+      <style>
+        #map {
+            height: 500px;
+            width: 100%;
+          }
+      </style>
+
+      <script>
+          let map
+          const display = document.getElementById('display')
+
+
+          function initMap() {
+              const geocoder = new google.maps.Geocoder()
+
+              map = new google.maps.Map(document.getElementById('map'), {
+                  center: {
+                      lat: 38.001637,
+                      lng: 135.767667
+                  },
+                  zoom: 5,
+              });
+              map.addListener( 'click', function(event) {
+                placeMarker(event.latLng);
+              });
+              let marker
+          function placeMarker(location) {
+
+            if ( marker ) {
+              marker.setPosition(location);
+            } else {
+              marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                draggable: true,
+              });
+            }
+            document.getElementById('lat').value = location.lat();
+            document.getElementById('lng').value = location.lng();
+            map.panTo(location);
+          };
+          };
+          var getMap = (function() {
+          function codeAddress(address) {
+
+            var geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode( { 'address': address}, function(results, status) {
+
+              if (status == google.maps.GeocoderStatus.OK) {
+
+                map.setCenter(results[0].geometry.location);
+
+                document.getElementById('lat').value=results[0].geometry.location.lat();
+                document.getElementById('lng').value=results[0].geometry.location.lng();
+
+
+                } else {
+                  console.log('Geocode was not successful for the following reason: ' + status);
+                }
+
+            });
+
+          }
+
+
+          return {
+            getAddress: function() {
+              var button = document.getElementById("map_button");
+
+              button.onclick = function() {
+
+                var address = document.getElementById("address").value;
+
+                codeAddress(address);
+              }
+
+              window.onload = function(){
+
+                var address = document.getElementById("address").value;
+                codeAddress(address);
+              }
+            }
+
+          };
+
+          })();
+          getMap.getAddress();
+          </script>
+
+          <script
+              src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API'] %>&callback=initMap"
+              async defer>
+          </script>
+
