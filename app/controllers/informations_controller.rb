@@ -1,6 +1,6 @@
 class InformationsController < ApplicationController
-  before_action :authenticate_user!,　only: [:create, :show, :edit, :update]
-  
+  before_action :authenticate_user!
+
   def new
     @map=Information.new
   end
@@ -11,7 +11,7 @@ class InformationsController < ApplicationController
     if @map.save
       flash[:notice] ="投稿しました"
       redirect_to information_path(@map.id)
-    else 
+    else
       render :new
     end
   end
@@ -30,7 +30,7 @@ class InformationsController < ApplicationController
   def edit
     @map=Information.find(params[:id])
   end
-  
+
   def destroy
     @map=Information.find(params[:id])
     @map.user_id=current_user.id
@@ -38,14 +38,14 @@ class InformationsController < ApplicationController
     flash[:notice] ="削除しました"
     redirect_to my_page_path
   end
-  
+
   def update
     @map=Information.find(params[:id])
     @map.user_id=current_user.id
     if @map.update(info_params)
       redirect_to information_path(@map.id)
       flash[:notice] ="上書きしました"
-    else 
+    else
       render :edit
     end
   end

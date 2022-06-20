@@ -46,7 +46,7 @@
         <% end %>
 
         <% if @map.user_id==current_user.id %>
-          <%= link_to edit_information_path(@map.id) do %>
+          <%= link_to edit_information_path(@map.id), data: { 'turbolinks': false } do %>
             <p class="btn btn-outline-primary">投稿を編集する</p>
           <% end %>
           <%= link_to information_path(@map.id), method: :delete, data: { confirm: "【確認】この投稿を削除しますか？" } do %>

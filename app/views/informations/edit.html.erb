@@ -22,7 +22,7 @@
     </div>
     <div class="col-sm-12 col-md-12 col-lg-5 px-1 px-sm-0 m-2 border rounded-derk">
       <div>
-        <%= form_with model: @map, url: informations_path, data: { confirm: "【確認】内容を投稿しますか?" } do |f| %>
+        <%= form_with model: @map, url: information_path, data: { confirm: "【確認】内容を変更しますか?" } do |f| %>
           <%= f.hidden_field :latitude, id: 'lat' %>
           <%= f.hidden_field :longitude, id: 'lng' %>
           <div>
@@ -36,7 +36,7 @@
             <%= f.text_area :body, style: "width:100%; height:325px" %>
           </div>
           <div class="text-right">
-            <%= f.submit "投稿する",class:"btn btn-outline-primary" %>
+            <%= f.submit "編集する",class:"btn btn-outline-primary" %>
           </div>
         <% end %>
       </div>
