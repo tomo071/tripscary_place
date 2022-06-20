@@ -1,0 +1,20 @@
+<div class="text-center m-5">
+  <h1 class="m-5">退会手続き</h1>
+  <p class="m-5">
+    退会手続きをされますと、全てのサービスがご利用いただけなくなります。<br>
+    再度ご利用をいただく場合には、新規登録のお手続きが必要になります。<br>
+    本当に退会してよろしいですか？
+  </p>
+  <div class=m-4>
+    <div class="m-2">
+      <%= link_to  withdrawal_path, method: :patch,  data: { confirm: "【最終確認】退会しますか？" } do %>
+        <p class="btn btn-outline-danger">退会する</p>
+      <% end %>
+    </div>
+    <div class="m-2">
+      <%= link_to  my_page_path(current_user) do %>
+        <p class="btn btn-outline-primary">退会しない</p>
+      <% end %>
+    </div>
+  </div>
+</div>

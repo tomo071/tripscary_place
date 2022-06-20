@@ -4,16 +4,22 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <title>TripscaryPalce</title>
     <meta content="width=device-width,initial-scale=1" name="viewport"/>
+    <link href="https://fonts.googleapis.com/css?family=Ravi+Prakash" rel="stylesheet">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_pack_tag 'application', media: 'all' %>
-    <%= javascript_pack_tag 'application' %>
+    <%= javascript_pack_tag 'application' ,'data-turbolinks-track': 'reload'%>
   </head>
   <body>
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-          <%= link_to "LOGO", root_path, class:"navbar-brand" %>
+          <%= link_to  root_path, class:"navbar-brand" do %>
+           <p class="p-1 border rounded bg-warning text-dark">
+             <i class="fab fa-forumbee"></i>
+             Tripscary_Palce
+             </p>
+          <% end %>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="true" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -25,17 +31,17 @@
                  <li>
                   <%= link_to new_information_path, class:"nav-link text-light", data: { 'turbolinks': false } do %>
                   <span class="fa-w-20">
-                  <i class="fas fa-users"></i>
+                  <i class="fas fa-plus-circle"></i>
                   新規投稿
                   </span>
                   <% end %>
                 </li>
 
                 <li>
-                  <%= link_to users_path(current_user), class:"nav-link text-light",data: { 'turbolinks': false } do %>
+                  <%= link_to my_page_path(current_user), class:"nav-link text-light",data: { 'turbolinks': false } do %>
                   <span class="fa-w-18">
-                  <i class="fas fa-home"></i>
-                  自分の投稿
+                  <i class="fas fa-address-book"></i>
+                  マイページ
                   </span>
                   <% end %>
                 </li>
@@ -43,7 +49,7 @@
                 <li>
                   <%= link_to informations_path, class:"nav-link text-light", data: { 'turbolinks': false } do %>
                   <span class="fa-w-18">
-                  <i class="fas fa-home"></i>
+                  <i class="fas fa-map-marker-alt"></i>
                   投稿一覧
                   </span>
                   <% end %>
@@ -64,15 +70,15 @@
                   <%= link_to root_path, class:"nav-link text-light" do %>
                   <span class="fa-w-18">
                   <i class="fas fa-home"></i>
-                  About
+                  TOP
                   </span>
                   <% end %>
                 </li>
 
                 <li>
-                  <%= link_to informations_path, class:"nav-link text-light" do %>
+                  <%= link_to guest_path, class:"nav-link text-light", data: { 'turbolinks': false } do %>
                   <span class="fa-w-16">
-                  <i class="fas fa-link"></i>
+                  <i class="fas fa-map-marker-alt"></i>
                   投稿一覧
                   </span>
                   <% end %>

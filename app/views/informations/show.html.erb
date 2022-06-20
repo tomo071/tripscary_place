@@ -1,84 +1,113 @@
-<div class="container px-5 px-sm-0">
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-6 px-1 px-sm-0 mt-2">
-            <div id='map'></div>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-5 px-1 px-sm-0 mx-0 mt-2 border rounded-dark">
-            <div>
-                <div class="m-auto">
-                    <h3>タイトル</h3>
-                    <p class="m-3"><strong><%= @map.title %></strong></p>
-                </div>
-                <div>
-                    <h3>内容</h3>
-                    <p class="m-3"><%= safe_join(@map.body.split("\n"),tag(:br)) %></p>
-                </div>
-            </div>
-        </div>
+<div class=" container-lg px-5 px-sm-0">
+  <% if flash[:notice] %>
+    <p id="notice">
+      <%= flash[:notice] %>
+    </p>
+  <% end %>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6 px-1 px-sm-0 mt-2">
+      <div id='map'></div>
     </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-10 px-5 px-sm-0 mx-auto mt-3">
-            <div class="text-right">
-                <% if user_signed_in? %>
-                    <% if @map.user_id==current_user.id %>
-                        <%= @map.favorites.count %> 参考になった
+    <div class="col-sm-12 col-md-12 col-lg-5 px-1 px-sm-0 mx-0 mt-2 border rounded-dark">
+      <div>
+        <div class="m-auto">
+          <h3>タイトル</h3>
+          <p class="m-3"><strong><%= @map.title %></strong></p>
+        </div>
+        <div>
+          <h3>内容</h3>
+          <p class="m-3"><%= safe_join(@map.body.split("\n"),tag(:br)) %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-10 px-5 px-sm-0 mx-auto mt-3">
+      <div class="text-right">
+        <% if user_signed_in? %>
+          <% if @map.user_id==current_user.id %>
+            <%= @map.favorites.count %> ブックマーク
+          <% else %>
+
+            <% if @map.favorited_by?(current_user) %>
+              <p class="btn btn-outline-danger">
+              <%= link_to information_favorites_path(@map), method: :delete do %>
+                <i class="fas fa-bookmark"></i><%= @map.favorites.count %> ブックマーク削除
+              <% end %>
+              </p>
+            <% else %>
+              <p class="btn btn-outline-primary" disabled>
+              <%= link_to information_favorites_path(@map), method: :post do %>
+                <i class="far fa-bookmark"></i><%= @map.favorites.count %> ブックマーク
+              <% end %>
+              </p>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% if @map.user_id==current_user.id %>
+          <%= link_to edit_information_path(@map.id) do %>
+            <p class="btn btn-outline-primary">投稿を編集する</p>
+          <% end %>
+          <%= link_to information_path(@map.id), method: :delete, data: { confirm: "【確認】この投稿を削除しますか？" } do %>
+          　<p class="btn btn-outline-warning">投稿を削除する</p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-10 px-5 px-sm-0 mx-auto">
+      <div>
+        <table class="table">
+          <div class="text-right">
+            <%= form_with model: [@map, @comment] do |f| %>
+
+              <%= f.text_field :body, size:"60" %>
+              <%= f.submit "コメントする"%>
+            <% end %>
+          </div>
+          <thead>
+            <tr>
+              <th>ユーザー</th>
+              <th>コメント一覧</th>
+              <th colspan="2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @comments.each do |comment| %>
+              <tr>
+                <td><%= comment.user.name %></td>
+                <td><%= comment.body %></td>
+                <td class="text-right">
+                  <%=l comment.created_at, format: :short %>
+                  <% if comment.user==current_user %>
+                    <%= link_to information_comment_path(comment.information, comment), method: :delete do %>
+                      <p　class="m-2 btn btn-info">削除</p>
+                    <% end %>
+                  <% else %>
+                    <% if comment.reported_by?(current_user) %>
+                      <p class="small btn btn-outline-danger">
+                      <%= link_to information_comment_reports_path(@map.id, comment), method: :delete do %>
+                        通報を取り消す
+                      <% end %>
+                      </p>
                     <% else %>
-
-                        <% if @map.favorited_by?(current_user) %>
-                            <p class="btn btn-outline-danger">
-                                <%= link_to information_favorites_path(@map), method: :delete do %>
-                                    ✓<%= @map.favorites.count %> 参考になった
-                                <% end %>
-                            </p>
-                        <% else %>
-                            <p class="btn btn-outline-primary" disabled>
-                                <%= link_to information_favorites_path(@map), method: :post do %>
-                                    ☐<%= @map.favorites.count %> 参考になった
-                                <% end %>
-                            </p>
+                      <p class="small btn btn-outline-danger" disabled>
+                        <%= link_to information_comment_reports_path(@map.id, comment), method: :post, data: { confirm: "【確認】このコメントを通報しますか？" } do %>
+                          通報
                         <% end %>
+                      </p>
                     <% end %>
-                <% end %>
-
-                <% if @map.user_id==current_user.id %>
-                    <%= link_to  edit_information_path(@map.id) do %>
-                        <p class="btn btn-outline-primary">投稿を編集する</p>
-                    <% end %>
-                <% end %>
-            </div>
-        </div>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-10 px-5 px-sm-0 mx-auto">
-            <div>
-                <table class="table">
-                    <div class="text-right">
-                        <%= form_with model: [@map, @comment], url: comments_path do |f| %>
-                            <%= f.hidden_field :information_id, :value=>@map.id %>
-                            <%= f.text_field :body, size:"60" %>
-                            <%= f.submit "コメントする"%>
-                        <% end %>
-                    </div>
-                    <thead>
-                        <tr>
-                            <th>ユーザー</th>
-                            <th>コメント一覧</th>
-                            <th colspan="2"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% @comments.each do |comment| %>
-                        <tr>
-                            <td><%= comment.user.name %></td>
-                            <td><%= comment.body %></td>
-                            <td colspan="2"></td>
-                        </tr>
-                        <% end %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
 
 

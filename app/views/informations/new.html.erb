@@ -1,9 +1,17 @@
-<div class="container px-5 px-sm-0">
-  <h2 class="m-2">新規投稿</h2>
+<div class="container- px-5 px-sm-0">
+  <h2 class="m-3">新規投稿</h2>
   <div class="row">
-    <div class="col-sm-11 col-md-5 col-lg-3 px-5 px-sm-0 m-4">
+    <div class="col-sm-11 col-md-5 col-lg-5 px-5 px-sm-0 m-4">
       <form onsubmit="return false;">
         <h3>マップ検索</h3>
+        <% if @map.errors.any? %>
+          <%= @map.errors.count %>件のエラーが発生しました
+          <ul>
+            <% @map.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        <% end %>
         <div class="input-group">
           <input class="form-control" type="text" placeholder="国名、地名" id="address">
           <button type="button" value="検索" id="map_button" class="btn btn-outline-info">検索</button>
@@ -14,7 +22,7 @@
       <div>
         <i>
           あなたが体験した旅先での被害を投稿してみよう<br>
-          この投稿が誰かの参考になるかも！？
+          この投稿が誰かの参考になるかもしれません!
         </i>
       </div>
     </div>
@@ -35,7 +43,7 @@
               placeholder: "例：○○通りでスリに遭いました"%>
             </div>
           </div>
-            <h3>内容</h3>
+            <h3>詳細</h3>
           <div class="m-2">
             <%= f.text_area :body, style: "width:100%; height:320px",
             placeholder: "例：　観光名所でスリ被害に遭いました...
@@ -52,6 +60,11 @@
       <%= link_to informations_path,  data: { 'turbolinks': false } do %>
         <p class="btn btn-outline-info">
           投稿一覧
+        </p>
+      <% end %>
+      <%= link_to  :back  do %>
+        <p class="btn btn-outline-info">
+          戻る
         </p>
       <% end %>
     </div>

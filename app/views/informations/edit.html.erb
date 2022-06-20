@@ -1,8 +1,16 @@
-<div class="container px-5 px-sm-0">
+<div class="container-lg px-5 px-sm-0">
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12 px-5 px-sm-0 m-4">
       <form onsubmit="return false;">
         <h3>マップ検索</h3>
+        <% if @map.errors.any? %>
+          <%= @map.errors.count %>件のエラーが発生しました
+          <ul>
+            <% @map.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        <% end %>
         <input type="text" placeholder="国名、地名" id="address">
         <button type="button" value="検索" id="map_button">検索</button>
       </form>
@@ -27,7 +35,9 @@
           <div class="m-2">
             <%= f.text_area :body, style: "width:100%; height:325px" %>
           </div>
-          <div class="text-right"><%= f.submit "投稿する",class:"btn btn-outline-primary" %></div>
+          <div class="text-right">
+            <%= f.submit "投稿する",class:"btn btn-outline-primary" %>
+          </div>
         <% end %>
       </div>
     </div>

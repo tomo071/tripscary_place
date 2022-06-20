@@ -67,3 +67,7 @@ gem 'activeadmin'
 gem 'dotenv-rails'
 
 gem 'geocoder'
+
+gem 'devise-i18n'
+
+gem 'devise-i18n-views'

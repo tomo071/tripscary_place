@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
+  before_action :authenticate_user!
+  
   def create
-    information = Information.find_by(params[:information_id])
+    information = Information.find(params[:information_id])
     comment = current_user.comments.new(comment_params)
     comment.information_id = information.id
     comment.save

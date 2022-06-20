@@ -1,0 +1,56 @@
+<div class="container-lg px-5 px-sm-0">
+  <h2 class="m-3">投稿一覧</h2>
+  <div class="row">
+    <div class="col-sm-11 col-md-5 col-lg-5 px-5 px-sm-0 m-4">
+      <form onsubmit="return false;">
+        <h3>マップ検索</h3>
+        <div class="input-group">
+          <input class="form-control" type="text" placeholder="国名、地名" id="address">
+          <button type="button" value="検索" id="map_button" class="btn btn-outline-info">検索</button>
+        </div>
+      </form>
+      <button type="button" id="location_button" class="mt-2 btn btn-secondary">現在地周辺を探す</button>
+    </div>
+    <div class="col-sm-11 col-md-5 col-lg-5 px-5 px-sm-0 m-4 text-center">
+      <div>
+        <i>
+          ～～楽しい旅行を犯罪被害で台無しにしないために～～<br><br>
+          旅行を予定している国、地域周辺の投稿で下調べしよう！<br>
+          観光地でも油断は禁物です！！
+        </i>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-11 col-md-7 col-lg-7 px-5 px-sm-0 mx-2">
+      <div id='map'></div>
+    </div>
+    <div class="col-sm-11 col-md-4 col-lg-4 px-5 px-sm-0 mx-2 border rounded-dark">
+      <div class="m-2">
+        <h3>使い方</h3>
+        <p class="mt-3">
+          ・登録を完了するとブックマーク機能やマップのマーカーから詳細ページの閲覧が可能になります<br>
+          また、新規投稿も登録後使用可能です。
+        </p>
+        <p class="mt-3">
+          ・マップマーカーにカーソルを合わせるとタイトルが表示されます。<br>
+        </p>
+        <p class="mt-3">
+          ・ログイン後のマイページではブックマークをした投稿、自分が投稿したものを閲覧することができます。<br>
+          ボタンで切り替えてお使いください。
+        </p>
+        <p class="mt-3">
+          ・退会はマイページのユーザー情報、編集から退会することができます。<br>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+      <style>
+          #map {
+              height: 500px;
+              width: 100%;
+          }
+      </style>
+
+<%= render 'informations/map', maps: @maps %>
