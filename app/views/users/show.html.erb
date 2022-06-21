@@ -1,7 +1,7 @@
 <div class="container-lg px-5 px-sm-0">
   <h2 class="m-3">マイページ</h2>
   <% if flash[:notice] %>
-    <p id="notice">
+    <p id="notice" class="text-success">
       <%= flash[:notice] %>
     </p>
   <% end %>
@@ -113,6 +113,7 @@
               return function(){ location.href = url; };
             })("<%= information_path(favorite.information.id) %>"));
 
+            
             for (let i = 0; i < marker1.length; i++) {
               marker1[i].setMap(null);
             }

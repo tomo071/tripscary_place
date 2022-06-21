@@ -1,6 +1,6 @@
 <div class=" container-lg px-5 px-sm-0">
   <% if flash[:notice] %>
-    <p id="notice">
+    <p id="notice" class="text-success">
       <%= flash[:notice] %>
     </p>
   <% end %>
@@ -24,27 +24,23 @@
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-10 px-5 px-sm-0 mx-auto mt-3">
       <div class="text-right">
-        <% if user_signed_in? %>
-          <% if @map.user_id==current_user.id %>
-            <%= @map.favorites.count %> ブックマーク
-          <% else %>
-
-            <% if @map.favorited_by?(current_user) %>
-              <p class="btn btn-outline-danger">
+        <% if @map.user_id==current_user.id %>
+          <%= @map.favorites.count %> 名にブックマークされました
+        <% else %>
+          <% if @map.favorited_by?(current_user) %>
+            <p class="btn btn-outline-danger">
               <%= link_to information_favorites_path(@map), method: :delete do %>
                 <i class="fas fa-bookmark"></i><%= @map.favorites.count %> ブックマーク削除
               <% end %>
-              </p>
-            <% else %>
-              <p class="btn btn-outline-primary" disabled>
+            </p>
+          <% else %>
+            <p class="btn btn-outline-primary" disabled>
               <%= link_to information_favorites_path(@map), method: :post do %>
                 <i class="far fa-bookmark"></i><%= @map.favorites.count %> ブックマーク
               <% end %>
-              </p>
-            <% end %>
+            </p>
           <% end %>
         <% end %>
-
         <% if @map.user_id==current_user.id %>
           <%= link_to edit_information_path(@map.id), data: { 'turbolinks': false } do %>
             <p class="btn btn-outline-primary">投稿を編集する</p>
@@ -62,7 +58,6 @@
         <table class="table">
           <div class="text-right">
             <%= form_with model: [@map, @comment] do |f| %>
-
               <%= f.text_field :body, size:"60" %>
               <%= f.submit "コメントする"%>
             <% end %>
