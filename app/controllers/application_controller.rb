@@ -14,9 +14,8 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email])
   end
 
-
   def after_sign_in_path_for(resource)
-    my_page_path(current_user)
+    root_path
   end
 
   def after_sign_out_pathfor(resource)

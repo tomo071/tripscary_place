@@ -14,14 +14,5 @@ ActiveAdmin.register Information do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  permit_params :title
-
-  index do
-    selectable_column
-    id_column
-    column :title
-    column :body
-
-    actions
-  end
+  
 end

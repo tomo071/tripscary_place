@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
+
   root 'homes#top'
   get "/guest" => 'homes#guest'
 
@@ -22,4 +23,5 @@ Rails.application.routes.draw do
     :registrations => 'users/registrations'
   }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
 end

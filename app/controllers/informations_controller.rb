@@ -18,7 +18,6 @@ class InformationsController < ApplicationController
 
   def index
     @maps=Information.all
-
   end
 
   def show
