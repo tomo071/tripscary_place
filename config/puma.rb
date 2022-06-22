@@ -43,7 +43,6 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 plugin :tmp_restart
 
 bind "unix://#{Rails.root}/tmp/sockets/puma.sock"
-
 rails_root = Dir.pwd
 
 if Rails.env.production?
@@ -54,6 +53,5 @@ if Rails.env.production?
     File.join(rails_root, 'log', 'puma-error.log'),
     true
   )
-  # デーモン
   daemonize
 end
