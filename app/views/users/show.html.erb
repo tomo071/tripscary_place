@@ -113,7 +113,7 @@
               return function(){ location.href = url; };
             })("<%= information_path(favorite.information.id) %>"));
 
-            
+
             for (let i = 0; i < marker1.length; i++) {
               marker1[i].setMap(null);
             }
@@ -128,4 +128,3 @@
     src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API'] %>&callback=initMap"
     async defer>
   </script>
-</div>

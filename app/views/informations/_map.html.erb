@@ -39,7 +39,6 @@
             center: LatLng,
             zoom: 15,
         })
-        console.log("testtttttttt")
 
         <% maps.each do |map| %>
           (function(){
@@ -67,14 +66,13 @@
       var geocoder = new google.maps.Geocoder();
 
       geocoder.geocode( { 'address': address}, function(results, status) {
-console.log("testtttttttt");
+
         if (status == google.maps.GeocoderStatus.OK) {
 
           map.setCenter(results[0].geometry.location);
 
           document.getElementById('lat').value=results[0].geometry.location.lat();
           document.getElementById('lng').value=results[0].geometry.location.lng();
-
 
         } else {
           console.log('Geocode was not successful for the following reason: ' + status);

@@ -1,85 +1,85 @@
 <%= stylesheet_link_tag "top_image", :media => "all" %>
-<div class="top-image">
-  <div class="container-lg px-5 px-sm-0">
-    <div class="row">
-      <div class="col-12 px-5 mt-5 m-em-0 mx-auto me-0">
-        <div class="text_center d-flex">
-          <h1 class="border rounded bg-warning text-dark">
-            <i class="fab fa-forumbee"></i>
-            Tripscary_Palce
-          </h1>
-        </div>
-        <% if flash[:notice] %>
-          <p id="notice" class="text-success">
-            <%= flash[:notice] %>
+
+<div class="container-lg px-5 px-sm-0 top-image">
+  <div class="row">
+    <div class="col-12 px-5 mt-5 m-em-0 mx-auto me-0">
+      <div class="text_center d-flex">
+        <h1 class="border rounded bg-warning text-dark">
+          <i class="fab fa-forumbee"></i>
+          Tripscary_Palce
+        </h1>
+      </div>
+      <% if flash[:notice] %>
+        <p id="notice" class="text-success">
+          <%= flash[:notice] %>
+        </p>
+      <% end %>
+      <div class="mx-4 my-5 d-flex">
+        <div class="top-content">
+          <p class="text-light p-1">
+            旅行中、スリにあった...<br>
+            タクシー料金が適正ではなかった...<br>
+            道案内をしてくれると言っていたのでついていったら怖い目にあった...<br><br>
+            <strong>安全だと思っていたのに...</strong>
           </p>
-        <% end %>
-        <div class="mx-4 my-5 d-flex">
-          <div class="top-content">
-            <p class="text-light p-1">
-              旅行中、スリにあった...<br>
-              タクシー料金が適正ではなかった...<br>
-              道案内をしてくれると言っていたのでついていったら怖い目にあった...<br><br>
-              <strong>安全だと思っていたのに...</strong>
-            </p>
-          </div>
         </div>
       </div>
     </div>
-    <div class="row mt-5 mb-5">
-      <div class="col-sm-12 col-md-12 col-lg-6 mb-5">
-        <div class="m-5 d-flex">
-          <div class="top-content">
-            <p class="text-light">
-              海外旅行・出張中に経験した体験・治安などを投稿し情報共有するサイトです。<br><br>
-              はじめての場所への旅行・出張の際、現地周辺で投稿された犯罪被害の情報をもとに対策を<br><br>
-              もし体験してしまった方は情報提供を<br><br>
-              あなたの投稿が誰かの参考になります。
-            </p>
-          </div>
+  </div>
+  <div class="row mt-5 mb-5">
+    <div class="col-sm-12 col-md-12 col-lg-6 mb-5">
+      <div class="m-5 d-flex">
+        <div class="top-content">
+          <p class="text-light">
+            海外旅行・出張中に経験した体験・治安などを投稿し情報共有するサイトです。<br><br>
+            はじめての場所への旅行・出張の際、現地周辺で投稿された犯罪被害の情報をもとに対策を<br><br>
+            もし体験してしまった方は情報提供を<br><br>
+            あなたの投稿が誰かの参考になります。
+          </p>
         </div>
       </div>
-      <div class="col-sm-12 col-md-12 col-lg-6 mb-5">
-        <div class="m-5 d-flex">
-          <div class="top-link">
-            <% if user_signed_in? %>
-              <div class="mt-2 text-center">
-                <h3>新規投稿はこちらから</h3>
-              </div>
-              <div class="mt-3 mx-5">
-                <%= link_to new_information_path, class: "btn btn-outline-primary btn-block",data: { 'turbolinks': false } do %>
-                  <h5>投稿する</h5>
-                <% end %>
-              </div>
-              <div class="mt-3 text-center">
-                <h3>投稿一覧はこちらから</h3>
-              </div>
-              <div class="mt-3 mb-2 mx-5">
-                <%= link_to informations_path, class: "btn btn-outline-secondary btn-block",data: { 'turbolinks': false } do %>
-                  <h5>一覧を見る</h5>
-                <% end %>
-              </div>
-            <% else %>
-              <div class="mt-2 text-center">
-                <h3>新規登録されていない方</h3>
-              </div>
-              <div class="mt-3 mx-5">
-                <%= link_to new_user_registration_path, class: "btn btn-outline-primary btn-block" do %>
-                  <h5>新規登録</h5>
-                <% end %>
-              </div>
-              <div class="mt-3 text-center">
-                <h3>登録がお済の方</h3>
-              </div>
-              <div class="mt-3 mb-2 mx-5">
-                <%= link_to new_user_session_path, class: "btn btn-outline-success btn-block" do %>
-                  <h5>ログイン</h5>
-                <% end %>
-              </div>
-            <% end %>
-          </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 mb-5">
+      <div class="m-5 d-flex">
+        <div class="top-link">
+          <% if user_signed_in? %>
+            <div class="mt-2 text-center">
+              <h3>新規投稿はこちらから</h3>
+            </div>
+            <div class="mt-3 mx-5">
+              <%= link_to new_information_path, class: "btn btn-outline-primary btn-block",data: { 'turbolinks': false } do %>
+                <h5>投稿する</h5>
+              <% end %>
+            </div>
+            <div class="mt-3 text-center">
+              <h3>投稿一覧はこちらから</h3>
+            </div>
+            <div class="mt-3 mb-2 mx-5">
+              <%= link_to informations_path, class: "btn btn-outline-secondary btn-block",data: { 'turbolinks': false } do %>
+                <h5>一覧を見る</h5>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="mt-2 text-center">
+              <h3>新規登録されていない方</h3>
+            </div>
+            <div class="mt-3 mx-5">
+              <%= link_to new_user_registration_path, class: "btn btn-outline-primary btn-block" do %>
+                <h5>新規登録</h5>
+              <% end %>
+            </div>
+            <div class="mt-3 text-center">
+              <h3>登録がお済の方</h3>
+            </div>
+            <div class="mt-3 mb-2 mx-5">
+              <%= link_to new_user_session_path, class: "btn btn-outline-success btn-block" do %>
+                <h5>ログイン</h5>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
   </div>
 </div>
+
