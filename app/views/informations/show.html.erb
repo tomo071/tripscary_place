@@ -53,12 +53,12 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-10 px-5 px-sm-0 mx-auto">
+    <div class="col-xs-12 col-md-12 col-lg-10 px-5 px-sm-0 mx-auto">
       <div>
         <table class="table">
           <div class="text-right">
             <%= form_with model: [@map, @comment] do |f| %>
-              <%= f.text_field :body, size:"60" %>
+              <%= f.text_field :body, size:"30" %>
               <%= f.submit "コメントする"%>
             <% end %>
           </div>
