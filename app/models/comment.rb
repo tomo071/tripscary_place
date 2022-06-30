@@ -5,6 +5,8 @@ class Comment < ApplicationRecord
 
   has_many :reports, dependent: :destroy
 
+  validates :body, presence: true
+
   def reported_by?(user)
     reports.exists?(user_id: user.id)
   end

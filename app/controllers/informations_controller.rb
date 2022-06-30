@@ -1,5 +1,6 @@
 class InformationsController < ApplicationController
   before_action :authenticate_user!
+  before_action :information_user, only:[:edit, :update, :destroy]
 
   def new
     @map=Information.new
@@ -51,9 +52,15 @@ class InformationsController < ApplicationController
 
   private
 
+  def information_user
+    @info = Information.find(params[:id])
+    unless @info.user == current_user
+      redirect_to my_page_path
+    end
+  end
+
   def info_params
     params.require(:information).permit(:title, :body, :latitude, :longitude, :address)
   end
-
 
 end
