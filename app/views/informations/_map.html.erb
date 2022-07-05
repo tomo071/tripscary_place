@@ -1,8 +1,6 @@
 <script>
   let map
 
-  const display = document.getElementById('display')
-
   function initMap() {
 
     map = new google.maps.Map(document.getElementById('map'), {
@@ -20,13 +18,12 @@
         var marker = new google.maps.Marker({
           position:{lat: <%= map.latitude %>, lng: <%= map.longitude %>},
           map: map,
-          title: contentString
+          title: contentString,
         });
 
         google.maps.event.addListener(marker, 'click', (function(url){
           return function(){ location.href = url; };
         })("<%= information_path(map.id) %>"));
-
 
       })();
     <% end %>
@@ -53,7 +50,7 @@
             google.maps.event.addListener(marker, 'click', (function(url){
               return function(){ location.href = url; };
             })("<%= information_path(map.id) %>"));
-            
+
         <% end %>
       });
     });
@@ -74,11 +71,9 @@
           document.getElementById('lng').value=results[0].geometry.location.lng();
 
         } else {
-          console.log('Geocode was not successful for the following reason: ' + status);
+          alert('「現在地周辺から検索」は、現在使用できません')
         }
-
       });
-
     };
 
 
@@ -97,9 +92,8 @@
 
           var address = document.getElementById("address").value;
           codeAddress(address);
-        }
+        };
       }
-
     };
 
   })();

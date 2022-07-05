@@ -47,7 +47,7 @@
   </div>
   <div class="row">
     <div class="col-12 m-3 text-center">
-      <%= link_to "戻る", :back, class: "btn btn-outline-info" %>
+      <%= link_to "戻る", :back, class: "btn btn-outline-info", data: { 'turbolinks': false } %>
     </div>
   </div>
 </div>
@@ -70,7 +70,6 @@
 
         const favorite_count=<%= @user.favorites.count %>
 
-
         map = new google.maps.Map(document.getElementById('map'), {
             center: {
               lat: 35.001637,
@@ -81,13 +80,14 @@
 
         <% @user.informations.each do |information| %>
           $('#information_button').click(function(){
-            var contentString = "<%= information.title %>";
+            const contentString = "<%= information.title %>";
 
             marker1.push(new google.maps.Marker({
                 position:{lat: <%= information.latitude %>, lng: <%= information.longitude %>},
                 map: map,
                 title: contentString
             }));
+            
             google.maps.event.addListener(marker1[marker1.length - 1], 'click', (function(url){
               return function(){ location.href = url; };
             })("<%= information_path(information.id) %>"));
@@ -102,7 +102,7 @@
 
         <% @user.favorites.each do |favorite| %>
           $('#favorite_botton').click(function(){
-            var contentString = "<%= favorite.information.title %>";
+            const contentString = "<%= favorite.information.title %>";
 
             marker2.push(new google.maps.Marker({
                 position:{lat: <%= favorite.information.latitude %>, lng: <%= favorite.information.longitude %>},
@@ -112,7 +112,6 @@
             google.maps.event.addListener(marker2[marker2.length - 1], 'click', (function(url){
               return function(){ location.href = url; };
             })("<%= information_path(favorite.information.id) %>"));
-
 
             for (let i = 0; i < marker1.length; i++) {
               marker1[i].setMap(null);
